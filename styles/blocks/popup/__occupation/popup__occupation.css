@@ -1,0 +1,9 @@
+.popup__occupation {
+    height: 27px;
+    box-sizing: border-box;
+
+    margin-bottom: 50px;
+
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
+}
