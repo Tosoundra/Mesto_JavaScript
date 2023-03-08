@@ -16,9 +16,6 @@ let profileOccupation = document.querySelector('.profile__subtitle');
 
 function handleFormSubmit(event) {
     event.preventDefault();
-    // if (nameInput.value === '') {
-    //     submit.setAttribute('disabled', true);
-    // }
 
     profileName.textContent = nameInput.value;
     profileOccupation.textContent = occupationInput.value;
@@ -27,7 +24,7 @@ function handleFormSubmit(event) {
 
 form.addEventListener('submit', handleFormSubmit);
 
-// submit.addEventListener('click', handleFormSubmit);
+
 
 editButton.addEventListener('click', function () {
     popup.classList.add('popup');
@@ -93,6 +90,3 @@ likeButtons[5].addEventListener('click', function () {
     }
 });
 
-console.log(nameInput.value.length);
-
-// console.log(likeButtons[0].attributes[1].value);
