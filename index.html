@@ -7,36 +7,38 @@
     <title>Mesto</title>
     <link rel="stylesheet" href="styles/style.css">
 </head>
+
 <body class="page">
+    <!-- <video class="video" autoplay src="images/video.mp4" muted loop controls style="display: none; margin: auto; width: 100%;"></video> -->
     <aside class="popup_closed">
         <div class="popup__form-container">
             <form action="" class="popup__form">
                 <h2 class="popup__title">Редактировать профиль</h2>
                 <input type="text" name="name" id="" value="Жак-Ив Кусто" placeholder="Имя" class="popup__name" required autofocus>
                 <input type="text" name="occupation" id="" value="Исследователь океана" placeholder="О себе" class="popup__occupation" required>
-                <input type="submit" value="Сохранить" class="popup__submit button transition">
+                <button type="submit" class="popup__submit button transition">Сохранить</button>
         </form>
         <input type="image" src="images/Close_Icon.svg" class="popup__close-button transition button">
         </div>
-        
     </aside>
+
     <header class="header">
         <img src="images/logo.svg" alt="site_logo" class="logo">
     </header>
-    
+   
     <main class="main">
         <article class="profile">
             <div class="profile__container">
                 <img src="images/Kusto.png" alt="Жак-Ив Кусто" class="profile__image">
                <div class="profile__discription">
                 <div class="profile__name-edit-container">
-                    <h1 class="profile__title">Жак-Ив Кусто</h1>
-                    <input type="button" class="profile__edit button transition">
+                    <h1 class="profile__title"></h1>
+                    <button type="button" class="profile__edit button transition">
                 </div>
-                <h2 class="profile__subtitle">Исследователь океана</h2>
+                <h2 class="profile__subtitle"></h2>
                </div>
             </div>
-            <input type="button" value="" class="profile__add button transition">
+            <button type="button" class="profile__add button transition">
         </article>
         <section class="elements">
             <ul class="places-grid list">
@@ -45,6 +47,7 @@
                     <div class="places__container">
                         <span class="places__name">Карачаевск</span>
                         <input type="image" src="images/like-icon.svg" class="places__like button transition">
+                      
                         
                     </div>
                 </li>
@@ -53,7 +56,7 @@
                     <div class="places__container">
                         <span class="places__name">Гора Эльбрус</span>
                         <input type="image" src="images/like-icon.svg" class="places__like button transition">
-                        
+                      
                     </div>
                 </li>
                 <li class="places-grid__element">
@@ -77,7 +80,6 @@
                     <div class="places__container">
                         <span class="places__name">Домбай</span>
                         <input type="image" src="images/like-icon.svg" class="places__like button transition">
-                        
                     </div>
                 </li>
                 <li class="places-grid__element">
@@ -85,12 +87,12 @@
                     <div class="places__container">
                         <span class="places__name">Карачаево-Черкессия</span>
                         <input type="image" src="images/like-icon.svg" class="places__like button transition">
-                        
                     </div>
                 </li>
             </ul>
         </section>
     </main>
+            
     <footer class="footer">
         @2023 Mesto Russia
     </footer>
