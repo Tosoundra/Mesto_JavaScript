@@ -6,23 +6,44 @@ let sectionElement = document.querySelector('.elements');
 let likeButton = sectionElement.querySelectorAll('.places__like');
 
 let form = document.querySelector('.popup__form');
+
 let nameInput = document.querySelector('.popup__name');
 let occupationInput = document.querySelector('.popup__occupation');
+
 let profileName = document.querySelector('.profile__title');
 let profileOccupation = document.querySelector('.profile__subtitle');
-let prikol = document.querySelector('.video');
 
-profileName.textContent = 'Жак-Ив Кусто';
-profileOccupation.textContent = 'Исследователь океана';
+let nameofPerson = 'Жак-Ив Кусто';
+let nameofOccupation = 'Исследователь океана';
+
+let profile = {
+  name: nameofPerson,
+  occupation: nameofOccupation,
+};
+function person() {
+  let profile = {
+    name: nameofPerson,
+    occupation: nameofOccupation,
+  };
+  profileName.textContent = profile.name;
+  profileOccupation.textContent = profile.occupation;
+  nameInput.value = profileName.textContent;
+  occupationInput.value = profileOccupation.textContent;
+}
+person();
+
+function closePopup() {
+  popup.classList.remove('popup');
+}
 
 function handleFormSubmit(event) {
   event.preventDefault();
 
-  profileName.textContent = nameInput.value;
-  profileOccupation.textContent = occupationInput.value;
+  nameofPerson = nameInput.value;
+  nameofOccupation = occupationInput.value;
+  console.log(profile.name);
+  person();
   popup.classList.remove('popup');
-  prikol.style.display = 'block';
-  prikol.removeAttribute('muted');
 }
 
 form.addEventListener('submit', handleFormSubmit);
@@ -31,9 +52,8 @@ editButton.addEventListener('click', function () {
   popup.classList.add('popup');
 });
 
-closeButton.addEventListener('click', function () {
-  popup.classList.remove('popup');
-});
+// popup.addEventListener('click', closePopup);
+closeButton.addEventListener('click', closePopup);
 
 function likeButtonClick() {
   if (this.attributes[1].value === 'images/like-icon.svg') {

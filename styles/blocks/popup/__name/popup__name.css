@@ -9,6 +9,6 @@
 }
 
 .popup__name:invalid {
-    border: 2px solid red;
+    border: 2px solid rgba(255, 0, 0, 0.700);
     border-radius: 5px;
 }
