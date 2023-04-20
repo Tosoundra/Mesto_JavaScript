@@ -1,82 +1,147 @@
-let editButton = document.querySelector('.profile__edit');
-let closeButton = document.querySelector('.popup__close-button');
-let popup = document.querySelector('.popup_closed');
-let submit = document.querySelector('.popup__submit');
-let sectionElement = document.querySelector('.elements');
-let likeButton = sectionElement.querySelectorAll('.places__like');
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg',
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg',
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg',
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg',
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
+  },
+];
 
-let form = document.querySelector('.popup__form');
+const editButton = document.querySelector('.profile__edit');
+const popupEdit = document.getElementById('popup-edit');
+const nameInput = document.querySelector('.popup__name');
+const occupationInput = document.querySelector('.popup__occupation');
+const formEditProfile = document.querySelector('.form_edit-profile');
+const submit = document.querySelector('.popup__submit');
 
-let nameInput = document.querySelector('.popup__name');
-let occupationInput = document.querySelector('.popup__occupation');
+const buttonAddPlace = document.querySelector('.profile__add');
+const popupAddPlace = document.getElementById('popup-add-place');
+const inputPlaceName = document.querySelector('.popup__input-place-name');
+const inputPlaceURL = document.querySelector('.popup__input-place-url');
+const formAddPlace = document.querySelector('.popup__form-add-place');
 
-let profileName = document.querySelector('.profile__title');
-let profileOccupation = document.querySelector('.profile__subtitle');
+const popupCard = document.getElementById('popup-image');
 
-let nameofPerson = 'Жак-Ив Кусто';
-let nameofOccupation = 'Исследователь океана';
+const popImageContainer = () => popupCard.classList.toggle('.popup');
 
-let profile = {
-  name: nameofPerson,
-  occupation: nameofOccupation,
+const sectionElement = document.querySelector('.elements');
+const listPlaces = sectionElement.querySelector('.places-grid');
+
+const profileName = document.querySelector('.profile__title');
+const profileOccupation = document.querySelector('.profile__subtitle');
+
+const closeButton = document.querySelectorAll('.popup__close-button').forEach(item =>
+  item.addEventListener('click', function () {
+    popupCard.classList.remove('popup');
+    popupEdit.classList.remove('popup');
+    popupAddPlace.classList.remove('popup');
+  }),
+);
+
+const addCard = (name, link) => {
+  const templatePlace = document.querySelector('#place-template').content;
+  const element = templatePlace.querySelector('.places-grid__element').cloneNode(true);
+  element.querySelector('.places__image').src = link;
+  element.querySelector('.places__image').addEventListener('click', openedCard);
+  element.querySelector('.places__name').textContent = name;
+  element.querySelector('.places__like').addEventListener('click', changeColor);
+  element.querySelector('.places__trash-icon').addEventListener('click', removeCard);
+  return element;
 };
-function person() {
-  let profile = {
-    name: nameofPerson,
-    occupation: nameofOccupation,
+
+const cardsArray = initialCards.reduce((accum, item) => {
+  accum.push(addCard(item.name, item.link));
+  return accum;
+}, []);
+
+listPlaces.append(...cardsArray);
+
+function openedCard(event) {
+  const trigger = event.target;
+  const card = trigger.closest('.places-grid__element');
+  console.log(card);
+  const cardImage = (document.querySelector('.popup__image').src = trigger.src);
+  const cardCaption = (document.querySelector('.popup__caption').textContent = trigger
+    .closest('.places-grid__element')
+    .querySelector('.places__name').textContent);
+  popupCard.classList.toggle('popup');
+}
+
+function changeColor(event) {
+  const trigger = event.target;
+
+  trigger.getAttribute('src') === 'images/like-active.svg'
+    ? trigger.setAttribute('src', 'images/like-icon.svg')
+    : trigger.setAttribute('src', 'images/like-active.svg');
+}
+
+function removeCard(event) {
+  const trigger = event.target;
+  const card = trigger.closest('.places-grid__element');
+  card.remove();
+}
+
+let profileData = {
+  name: 'Жак-Ив Кусто',
+  occupation: 'Исследователь океана',
+};
+
+const initialPersonData = function () {
+  const profile = {
+    name: profileData.name,
+    occupation: profileData.occupation,
   };
   profileName.textContent = profile.name;
   profileOccupation.textContent = profile.occupation;
   nameInput.value = profileName.textContent;
   occupationInput.value = profileOccupation.textContent;
-}
-person();
+};
 
-function closePopup() {
-  popup.classList.remove('popup');
-}
+initialPersonData();
 
-function handleFormSubmit(event) {
+const popupEditClassToggle = () => popupEdit.classList.toggle('popup');
+editButton.addEventListener('click', popupEditClassToggle);
+
+const popupAddPlaceClassToggle = () => popupAddPlace.classList.toggle('popup');
+buttonAddPlace.addEventListener('click', popupAddPlaceClassToggle);
+
+function changeProfileData(event) {
   event.preventDefault();
 
-  nameofPerson = nameInput.value;
-  nameofOccupation = occupationInput.value;
-  console.log(profile.name);
-  person();
-  popup.classList.remove('popup');
+  profileData.name = nameInput.value;
+  profileData.occupation = occupationInput.value;
+
+  initialPersonData();
+  popupEditClassToggle();
 }
 
-form.addEventListener('submit', handleFormSubmit);
+formEditProfile.addEventListener('submit', changeProfileData);
 
-editButton.addEventListener('click', function () {
-  popup.classList.add('popup');
-});
+const addPlaceFunc = event => {
+  event.preventDefault();
 
-// popup.addEventListener('click', closePopup);
-closeButton.addEventListener('click', closePopup);
+  listPlaces.prepend(addCard(inputPlaceName.value, inputPlaceURL.value));
+  popupAddPlaceClassToggle();
+  inputPlaceName.value = '';
+  inputPlaceURL.value = '';
+};
 
-function likeButtonClick() {
-  if (this.attributes[1].value === 'images/like-icon.svg') {
-    this.setAttribute('src', 'images/like-active.svg');
-  } else {
-    this.setAttribute('src', 'images/like-icon.svg');
-  }
-}
-
-likeButton.forEach(button => {
-  button.addEventListener('click', likeButtonClick);
-});
-
-//  смена цвета кнопки при нажатии (другой принцип)
-// let iconButton = document.querySelectorAll('.svg-fill');
-// function action() {
-//     if(this.attributes[1].value === 'white') {
-//          this.setAttribute('fill', 'black');
-//     }
-//     else {
-//         this.setAttribute('fill', 'white')
-//     }
-// };
-// iconButton.forEach(button=> {
-//     button.addEventListener('click', action);
-// });
+formAddPlace.addEventListener('submit', addPlaceFunc);

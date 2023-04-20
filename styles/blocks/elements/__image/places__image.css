@@ -1,3 +1,9 @@
 .places__image {
-display: block;
+  display: block;
+  width: 282px;
+  height: 282px;
 }
+.places__image:hover {
+  cursor: pointer;
+}
+

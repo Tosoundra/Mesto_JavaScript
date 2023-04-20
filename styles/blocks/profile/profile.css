@@ -10,7 +10,6 @@
 @import url(__name-edit-container/profile__name-edit-container.css);
 
 .profile {
-    /* max-width: 880px; */
     margin-bottom: 50px;
 
     display: flex;

@@ -1,4 +1,6 @@
 .places-grid__element {
+    position: relative;
+
     height: 361px;
 
     border-radius: 10px;
