@@ -9,9 +9,10 @@
   </head>
 
   <body class="page">
-    <aside id="popup-edit" class="popup_closed transition">
+    <div class="popup__wrapper">
+      <aside id="popup-edit" class="popup_closed transition">
       <div class="popup__form-container">
-        <form action="" class="popup__form form_edit-profile">
+        <form novalidate class="popup__form form_edit-profile">
           <h2 class="popup__title">Редактировать профиль</h2>
           <input
             type="text"
@@ -44,7 +45,7 @@
 
     <aside id="popup-add-place" class="popup_closed transition">
       <div class="popup__form-container">
-        <form action="" class="popup__form popup__form-add-place">
+        <form novalidate class="popup__form popup__form-add-place">
           <h2 class="popup__title">Новое место</h2>
           <input
             type="text"
@@ -95,6 +96,8 @@
       </div>
     </aside>
 
+    </div>
+    
     <header class="header">
       <img src="images/logo.svg" alt="site_logo" class="logo" />
     </header>
@@ -130,5 +133,6 @@
     </template>
     <footer class="footer">@2023 Mesto Russia</footer>
     <script src="script.js"></script>
+    <script src="validate.js"></script>
   </body>
 </html>

@@ -48,13 +48,26 @@ const listPlaces = sectionElement.querySelector('.places-grid');
 const profileName = document.querySelector('.profile__title');
 const profileOccupation = document.querySelector('.profile__subtitle');
 
-const closeButton = document.querySelectorAll('.popup__close-button').forEach(item =>
-  item.addEventListener('click', function () {
-    popupCard.classList.remove('popup');
-    popupEdit.classList.remove('popup');
-    popupAddPlace.classList.remove('popup');
-  }),
-);
+const popupWrapper = document.querySelector('.popup__wrapper');
+popupWrapper.addEventListener('click', function (evt) {
+  if (evt.target.classList.contains('popup__close-button')) {
+    evt.target.closest('.popup_closed').classList.remove('popup');
+  }
+});
+
+
+// document.addEventListener('keydown', function (evt) {
+//   if (e§vt.key === 'Escape') {
+//     console.log(evt.key);
+//     const popups = Array.from(document.querySelectorAll('.popup__closed'));
+//     popups.forEach(popup => {
+//       if (popup.classList.contains('popup')) {
+//         console.log()
+//         popup.classList.remove('popup');
+//       }
+//     });
+//   }
+// });
 
 const addCard = (name, link) => {
   const templatePlace = document.querySelector('#place-template').content;
@@ -77,7 +90,6 @@ listPlaces.append(...cardsArray);
 function openedCard(event) {
   const trigger = event.target;
   const card = trigger.closest('.places-grid__element');
-  console.log(card);
   const cardImage = (document.querySelector('.popup__image').src = trigger.src);
   const cardCaption = (document.querySelector('.popup__caption').textContent = trigger
     .closest('.places-grid__element')
