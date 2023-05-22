@@ -1,14 +1,17 @@
 .popup__name {
-    height: 27px;
-    box-sizing: border-box;
+  height: 27px;
+  box-sizing: border-box;
 
-    margin-bottom: 30px;
+  /* margin-bottom: 30px; */
 
-    border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, .2);
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .popup__name:invalid {
-    border: 2px solid rgba(255, 0, 0, 0.700);
-    border-radius: 5px;
+  border-bottom: 1px solid #ff0000;
+}
+
+.popup__name:focus {
+  outline: none;
 }

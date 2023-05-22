@@ -25,6 +25,11 @@ const initialCards = [
   },
 ];
 
+let profileData = {
+  name: 'Жак-Ив Кусто',
+  occupation: 'Исследователь океана',
+};
+
 const editButton = document.querySelector('.profile__edit');
 const popupEdit = document.getElementById('popup-edit');
 const nameInput = document.querySelector('.popup__name');
@@ -40,8 +45,6 @@ const formAddPlace = document.querySelector('.popup__form-add-place');
 
 const popupCard = document.getElementById('popup-image');
 
-const popImageContainer = () => popupCard.classList.toggle('.popup');
-
 const sectionElement = document.querySelector('.elements');
 const listPlaces = sectionElement.querySelector('.places-grid');
 
@@ -49,52 +52,36 @@ const profileName = document.querySelector('.profile__title');
 const profileOccupation = document.querySelector('.profile__subtitle');
 
 const popupWrapper = document.querySelector('.popup__wrapper');
-popupWrapper.addEventListener('click', function (evt) {
-  if (evt.target.classList.contains('popup__close-button')) {
-    evt.target.closest('.popup_closed').classList.remove('popup');
-  }
-});
-
-
-// document.addEventListener('keydown', function (evt) {
-//   if (e§vt.key === 'Escape') {
-//     console.log(evt.key);
-//     const popups = Array.from(document.querySelectorAll('.popup__closed'));
-//     popups.forEach(popup => {
-//       if (popup.classList.contains('popup')) {
-//         console.log()
-//         popup.classList.remove('popup');
-//       }
-//     });
-//   }
-// });
 
 const addCard = (name, link) => {
   const templatePlace = document.querySelector('#place-template').content;
   const element = templatePlace.querySelector('.places-grid__element').cloneNode(true);
   element.querySelector('.places__image').src = link;
-  element.querySelector('.places__image').addEventListener('click', openedCard);
   element.querySelector('.places__name').textContent = name;
-  element.querySelector('.places__like').addEventListener('click', changeColor);
-  element.querySelector('.places__trash-icon').addEventListener('click', removeCard);
   return element;
 };
 
-const cardsArray = initialCards.reduce((accum, item) => {
-  accum.push(addCard(item.name, item.link));
-  return accum;
-}, []);
+function openPopup(popup) {
+  popup.classList.add('popup');
+  document.addEventListener('keydown', escapeButton);
+}
 
-listPlaces.append(...cardsArray);
+function closePopup() {
+  document.querySelector('.popup').classList.remove('popup');
+  document.removeEventListener('keydown', escapeButton);
+}
+
+function escapeButton(event) {
+  if (event.key === 'Escape') {
+    closePopup();
+  }
+}
 
 function openedCard(event) {
-  const trigger = event.target;
-  const card = trigger.closest('.places-grid__element');
-  const cardImage = (document.querySelector('.popup__image').src = trigger.src);
-  const cardCaption = (document.querySelector('.popup__caption').textContent = trigger
+  document.querySelector('.popup__image').src = event.target.src;
+  document.querySelector('.popup__caption').textContent = event.target
     .closest('.places-grid__element')
-    .querySelector('.places__name').textContent);
-  popupCard.classList.toggle('popup');
+    .querySelector('.places__name').textContent;
 }
 
 function changeColor(event) {
@@ -106,14 +93,26 @@ function changeColor(event) {
 }
 
 function removeCard(event) {
-  const trigger = event.target;
-  const card = trigger.closest('.places-grid__element');
-  card.remove();
+  event.target.closest('.places-grid__element').remove();
 }
 
-let profileData = {
-  name: 'Жак-Ив Кусто',
-  occupation: 'Исследователь океана',
+function changeProfileData(event) {
+  event.preventDefault();
+
+  profileData.name = nameInput.value;
+  profileData.occupation = occupationInput.value;
+
+  initialPersonData();
+  closePopup();
+}
+
+const addPlaceFunc = event => {
+  event.preventDefault();
+
+  listPlaces.prepend(addCard(inputPlaceName.value, inputPlaceURL.value));
+  closePopup();
+  inputPlaceName.value = '';
+  inputPlaceURL.value = '';
 };
 
 const initialPersonData = function () {
@@ -129,31 +128,50 @@ const initialPersonData = function () {
 
 initialPersonData();
 
-const popupEditClassToggle = () => popupEdit.classList.toggle('popup');
-editButton.addEventListener('click', popupEditClassToggle);
+const cardsArray = initialCards.reduce((accum, item) => {
+  listPlaces.append(addCard(item.name, item.link));
+  return accum;
+}, []);
 
-const popupAddPlaceClassToggle = () => popupAddPlace.classList.toggle('popup');
-buttonAddPlace.addEventListener('click', popupAddPlaceClassToggle);
+popupWrapper.addEventListener('click', function (evt) {
+  if (evt.target.classList.contains('popup__close-button')) {
+    closePopup();
+  }
+});
 
-function changeProfileData(event) {
-  event.preventDefault();
+popupWrapper.addEventListener('click', function (evt) {
+  if (evt.target.classList.contains('popup')) {
+    closePopup();
+  }
+});
 
-  profileData.name = nameInput.value;
-  profileData.occupation = occupationInput.value;
+listPlaces.addEventListener('click', function (event) {
+  if (event.target.classList.contains('places__image')) {
+    openedCard(event);
+    openPopup(popupCard);
+  }
+});
 
-  initialPersonData();
-  popupEditClassToggle();
-}
+listPlaces.addEventListener('click', function (event) {
+  if (event.target.classList.contains('places__like')) {
+    changeColor(event);
+  }
+});
+
+listPlaces.addEventListener('click', function (event) {
+  if (event.target.classList.contains('places__like')) {
+    removeCard(event);
+  }
+});
+
+editButton.addEventListener('click', function () {
+  openPopup(popupEdit);
+});
+
+buttonAddPlace.addEventListener('click', function () {
+  openPopup(popupAddPlace);
+});
 
 formEditProfile.addEventListener('submit', changeProfileData);
-
-const addPlaceFunc = event => {
-  event.preventDefault();
-
-  listPlaces.prepend(addCard(inputPlaceName.value, inputPlaceURL.value));
-  popupAddPlaceClassToggle();
-  inputPlaceName.value = '';
-  inputPlaceURL.value = '';
-};
 
 formAddPlace.addEventListener('submit', addPlaceFunc);
