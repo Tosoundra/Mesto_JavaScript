@@ -159,7 +159,7 @@ listPlaces.addEventListener('click', function (event) {
 });
 
 listPlaces.addEventListener('click', function (event) {
-  if (event.target.classList.contains('places__like')) {
+  if (event.target.classList.contains('places__trash-icon')) {
     removeCard(event);
   }
 });
